@@ -460,17 +460,15 @@ void _dcnv4_col2im_cuda(
       height_out, width_out, offset_scale, remove_center, block_multiplier,
       grad_im, grad_offset, padded_offset_dim);
 
-  cudaError_t err = cudaGetLastError();
-  if (err != cudaSuccess) {
+cudaError_t err = cudaGetLastError();
+if (err != cudaSuccess) {
     printf("error in dcnv4_im2col_cuda: %s\n", cudaGetErrorString(err));
-    printf("launch arguments: gridDim=(%d, %d, %d), blockDim=(%d, %d, %d), "
-           "shm_size=%d\n\n",
-           num_blocks.x, num_blocks.y, num_blocks.z, num_threads.x,
-           num_threads.y, num_threads.z, shm_size);
+    printf("launch arguments: gridDim=(%d, %d, %d), blockDim=(%d, %d, %d), shm_size=%d\n",
+           num_blocks.x, num_blocks.y, num_blocks.z, num_threads.x, num_threads.y, num_threads.z, shm_size);
+    printf("Params: B=%d, G=%d, D=%d, H_in=%d, W_in=%d, H_out=%d, W_out=%d, kernel_h=%d, kernel_w=%d, stride_h=%d, stride_w=%d, pad_h=%d, pad_w=%d, dilation_h=%d, dilation_w=%d, offset_scale=%f, remove_center=%d, block_multiplier=%d, padded_offset_dim=%d\n",
+           B, G, D, height_in, width_in, height_out, width_out, kernel_h, kernel_w, stride_h, stride_w, pad_h, pad_w, dilation_h, dilation_w, offset_scale, remove_center, block_multiplier, padded_offset_dim);
     AT_ASSERTM(false, "kernel launch error");
-  }
 }
-
 template <typename scalar_t>
 void dcnv4_col2im_cuda(
     cudaStream_t stream,
