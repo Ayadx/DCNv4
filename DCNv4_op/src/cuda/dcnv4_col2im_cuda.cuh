@@ -469,6 +469,7 @@ if (err != cudaSuccess) {
            B, G, D, height_in, width_in, height_out, width_out, kernel_h, kernel_w, stride_h, stride_w, pad_h, pad_w, dilation_h, dilation_w, offset_scale, remove_center, block_multiplier, padded_offset_dim);
     AT_ASSERTM(false, "kernel launch error");
 }
+}
 template <typename scalar_t>
 void dcnv4_col2im_cuda(
     cudaStream_t stream,
